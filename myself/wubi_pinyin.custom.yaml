@@ -1,0 +1,107 @@
+# Rime schema settings
+# encoding: utf-8
+
+patch:
+  schema: 
+    schema_id: wubi_pinyin
+    name: "五笔·拼音"
+    version: "0.9"
+    author:
+      - 發明人 王永民先生
+    description: |
+      五筆字型86版＋漢語拼音混合輸入。
+      碼表源自 ibus-table
+    dependencies:
+      - pinyin_simp
+
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中文, 西文 ]
+    - name: full_shape
+      states: [ 半角, 全角 ]
+    - name: extended_charset
+      states: [ 常用, 增廣 ]
+    - name: ascii_punct
+      states: [ 。，, ．， ]
+
+  engine:
+    processors:
+      - ascii_composer
+      - recognizer
+      - key_binder
+      - speller
+      - punctuator
+      - selector
+      - navigator
+      - express_editor
+    segmentors:
+      - ascii_segmentor
+      - matcher
+      - abc_segmentor
+      - punct_segmentor
+      - fallback_segmentor
+    translators:
+      - punct_translator
+      - reverse_lookup_translator
+      - table_translator
+
+  speller:
+    delimiter: " ;'"  # 单字分割符,默认 ;' 
+    # delimiter:
+    max_code_length: 4  # 最大码长,设置为4时四碼頂字上屏,默认为注释关闭
+    auto_select: true  # 自动上屏
+    # auto_clear: max_length  # 什么时候自动清除空码
+    auto_select_unique_candidate: true  # 无重码自动上屏
+
+  translator:
+    dictionary: wubi86
+    prism: wubi_pinyin
+    enable_charset_filter: true # 默认true
+    enable_sentence: true #默认true,改为false时
+    enable_encoder: true
+    encode_commit_history: true
+    max_phrase_length: 4 
+    disable_user_dict_for_patterns:
+      - "^z.*$"
+    # enable_user_dict: #字段含义未知
+
+  abc_segmentor:
+    extra_tags:
+      - reverse_lookup
+
+  reverse_lookup:
+    dictionary: pinyin_simp
+    prefix: "`"
+    suffix: "'"
+    tips: 〔拼音〕
+    preedit_format:
+      - xform/([nl])v/$1ü/
+      - xform/([nl])ue/$1üe/
+      - xform/([jqxy])v/$1u/
+
+  punctuator:
+    import_preset: default
+
+  key_binder:
+    # import_preset: default
+    bindings:
+      - {when: has_menu, accept: space, send: space}  # 自动清除空码所使用,
+      - {when: composing, accept: space, send: Escape} # 自动清除空码所使用
+      - {accept: "Control+Shift+space", toggle: ascii_mode, when: always}
+
+  recognizer:
+    import_preset: default
+    patterns:
+      reverse_lookup: "`[a-z]*'?$"
+
+
+# 自动清除空码
+# 自动清除空码可在编码输入错误、并且达到预定的编码最大长度时，自动清除空码，以方便重新输入，而不必删除后再重输入。通常五笔方案中比较实用。
+# 位置：程序目录的输入法方案文件 XXX.schema.yaml，或者用户数据目录中对应的XXX.custom.yaml。
+
+# key_binder:
+#  bindings:
+# 在此段下面添加以下两行，并配合本方案配置文件中的的enable_sentence: false、auto_clear: max_length（如果没有则添加到custom_phrase: 段中），实现自动清除空码。
+#    - {when: has_menu, accept: space, send: space}  
+#    - {when: composing, accept: space, send: Escape}

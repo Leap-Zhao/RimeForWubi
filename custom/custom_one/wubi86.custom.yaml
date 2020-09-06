@@ -1,0 +1,17 @@
+patch:
+  "speller/max_code_length": 4
+  "speller/auto_select": true #自動上屛〔true或false〕
+  "menu/page_size": 5 #最多候选个数
+  "translator/enable_completion": false #提前顯示尚未輸入完整碼的字〔僅table_translator有效〕
+  "translator/enable_charset_filter": false
+  "translator/enable_sentence": false
+  "translator/enable_encoder": false
+  "translator/encode_commit_history": false
+  "translator/enable_user_dict": false
+  "switches/@0/reset": 0 #将列表中的第一个元素改成0，1为asdi_mode
+  key_binder/bindings:
+    - {when: has_menu, accept: space, send: space}
+    - {when: composing, accept: space, send: Escape}
+    #- {accept: "Control+Shift+space", toggle: ascii_mode, when: always}
+    - {accept: minus, send: Page_Up, when: has_menu}
+    - {accept: equal, send: Page_Down, when: has_menu}

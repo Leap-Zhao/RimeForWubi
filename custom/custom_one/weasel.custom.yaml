@@ -1,0 +1,35 @@
+patch:
+  "preset_color_schemes/white": 
+    name: white
+    author: Fufuming
+    back_color: 0xFFFFFF
+    border_color: 0xDBDBDB
+    text_color: 0x000000
+    hilited_text_color: 0x000000
+    hilited_back_color: 0xDBDBDB
+    hilited_candidate_text_color: 0x000000
+    hilited_candidate_back_color: 0xFFFFFF
+    candidate_text_color: 0x000000
+    comment_text_color: 0x000000
+  "style/display_tray_icon": true
+  style:
+    color_scheme: white
+    display_tray_icon: true
+    font_face: "Microsoft YaHei"
+    font_point: 12
+    fullscreen: false
+    horizontal: true
+    inline_preedit: true #內嵌編碼（僅支持TSF）
+    label_format: " %s" #侯选字前面的编号
+    layout:
+      border_width: 1
+      candidate_spacing: 0
+      hilite_padding: 0
+      hilite_spacing: 0
+      margin_x: 1
+      margin_y: 1
+      min_height: 0
+      min_width: 0
+      round_corner: 0
+      spacing: 0
+    preedit_type: composition #preview为显示字，composition为显示字母

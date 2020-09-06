@@ -1,0 +1,102 @@
+# Rime schema settings
+# encoding: utf-8
+
+schema:
+  schema_id: wubi86
+  name: "五笔86"
+  version: "0.21"
+  author:
+    - 發明人 王永民先生
+  description: |
+    五筆字型86版
+    敲 z 鍵進入拼音反查
+  dependencies:
+    - pinyin_simp
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: zh_trad
+    reset: 0
+    states: [ 简,繁 ]
+  - name: gbk #gb2312,gbk,utf8
+    reset: 1
+    states: [ UTF-8, GBK ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+    
+engine:
+  processors:
+    - ascii_composer # 處理西文模式及中西文切
+    - recognizer # 與matcher搭配，處理符合特定規則的輸入碼，如網址、反查等tags
+    - key_binder #在特定條件下將按鍵綁定到其他按鍵，如重定義逗號、句號爲候選翻頁、開關快捷鍵等
+    - speller #拼寫處理器，接受字符按鍵，編輯輸入
+    - punctuator #句讀處理器，將單個字符按鍵直接映射爲標點符號或文字
+    - selector #編輯器，處理空格、回車上屏、回退鍵
+    - navigator #編輯器，處理空格、回車上屏、回退鍵
+    - express_editor #編輯器，處理空格、回車上屏、回退鍵
+  segmentors:
+    - ascii_segmentor #標識西文段落〔譬如在西文模式下〕字母直接上屛
+    - matcher #配合recognizer標識符合特定規則的段落，如網址、反查等，加上特定tag
+    - abc_segmentor #标识常规段落
+    - punct_segmentor #句末标点
+    - fallback_segmentor #识别其它没有识别的段落
+  translators:
+    #- echo_translator #沒有其他候選字時，回顯輸入碼〔輸入碼可以Shift+Enter上屛〕
+    - punct_translator #转换标点
+    - reverse_lookup_translator #用另一种编码方案查询
+    - table_translator #码表翻译
+  filters:
+    - simplifier #用字轉換 
+    - charset_filter@gbk #指定Switch中的转换
+
+speller:
+  max_code_length: 4 #形碼最大碼長，超過則頂字上屛〔number〕
+  auto_clear: max_length #自动清除空码
+  auto_select: false #自動上屛〔true或false〕
+
+translator:
+  dictionary: wubi86
+  enable_charset_filter: false #字府集过滤，低重码用不着
+  enable_sentence: false #是否開啓自動造詞〔僅table_translator有效〕
+  enable_completion: false #提前顯示尚未輸入完整碼的字〔僅table_translator有效〕
+  enable_encoder: false #是否開啓自動造詞〔僅table_translator有效〕
+  encode_commit_history: false #是否對已上屛詞自動成詞〔僅table_translator有效〕
+  enable_user_dict: false #是否開啓用戶詞典〔用戶詞典記錄動態字詞頻、用戶詞〕
+  max_phrase_length: 4 #自造词最长长度
+  disable_user_dict_for_patterns: #禁止某些編碼錄入用戶詞典
+    - "^z.*$"
+
+reverse_lookup:
+  dictionary: pinyin_simp
+  prefix: "z" #設定其前綴標識，可不塡，不塡則無前綴
+  suffix: "'" #設定其尾綴標識，可不塡，不塡則無尾綴
+  tips: "[Pinyin]" #設定其輸入前提示符，可不塡，不塡則無提示符
+  preedit_format: #输出格式的替换
+    - xform/(z)(z?)/z|$2/ #把前面的z替换成无
+    # - xform/([nl])v/$1ü/
+    # - xform/([nl])ue/$1üe/
+    # - xform/([jqxy])v/$1u/
+    
+simplifier: 
+  option_name: zh_trad
+  opencc_config: s2t.json
+  
+punctuator:
+  import_preset: default
+
+key_binder:
+  bindings: 
+    - {accept: space, send: space, when: has_menu}
+    - {accept: space, send: Escape, when: composing}
+    #- {accept: "Control+Shift+space", toggle: ascii_mode, when: always}
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "^z[a-z]*'?$"
+  # url: "^(www[.]|https?:|ftp:|mailto:).$"
+

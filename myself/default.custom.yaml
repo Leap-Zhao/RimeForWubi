@@ -1,0 +1,117 @@
+# Rime default settings
+# encoding: utf-8
+
+# default.custom.yaml
+# user default setting
+# save it to:
+#   ~/.config/ibus/rime  (linux)
+#   ~/Library/Rime       (macos)
+#   %APPDATA%\Rime       (windows)
+
+patch:
+  menu:
+    page_size: 5 # 候选词数量
+
+  switcher:
+    caption: "【输入法设置】"  # 默认值为〔方案選單〕
+    hotkeys:
+      - "Control+0"
+      - "Shift+Control+0"
+      - "Control+grave"
+      - "comma+grave"
+      # - Control+Shift+grave
+      # - F4
+    save_options:
+      - full_shape
+      - ascii_punct
+      - simplification
+      - extended_charset
+      - zh_hant
+      - zh_hans
+      - zh_hant_tw
+    fold_options: true
+    abbreviate_options: true # 缩写选项
+    option_list_separator: '｜'  # 默认值为 '/'
+
+  schema_list:
+    - schema: wubi86_jidian
+    - schema: wubi86_jidian_pinyin
+    # - schema: wubi_pinyin
+    # - schema: wubi86
+    # - schema: wubi86_jidian_trad
+    # - schema: wubi_trad  #五笔繁体字
+    # - schema: luna_pinyin
+    # - schema: luna_pinyin_simp
+    # - schema: luna_pinyin_fluency
+    # - schema: bopomofo
+    # - schema: bopomofo_tw
+    # - schema: cangjie5
+    # - schema: stroke
+    # - schema: terra_pinyin
+
+  punctuator:
+    import_preset: alternative   # 此句让所有的标点设为英文标点
+    # full_shape:
+    #   __include: punctuation:/full_shape
+    # half_shape:
+    #   __include: punctuation:/half_shape
+    
+
+  key_binder:
+    bindings:
+      #     - {accept: comma, send: 2, when: has_menu}  # 候选2 用逗号选择 （修改的时候不要多加或少加空格，跟前面的对齐就好了）
+      #     - {accept: period, send: 3, when: has_menu} # 候选3 用句号选择
+      - {accept: semicolon, send: 2, when: has_menu}  # 候选2 用分号
+      - {accept: apostrophe, send: 3, when: has_menu} # 候选3 用单引号
+      - {accept: bracketleft, send: Page_Up, when: paging}
+      - {accept: bracketright, send: Page_Down, when: has_menu}
+#      - {accept: Return, send: Escape, when: composing}   # 回车清码
+
+      # emacs key bindings, copy from https://github.com/rime/rime-prelude/blob/master/key_bindings.yaml
+      - { when: composing, accept: Control+p, send: Up }
+      - { when: composing, accept: Control+n, send: Down }
+      - { when: composing, accept: Control+b, send: Left }
+      - { when: composing, accept: Control+f, send: Right }
+      - { when: composing, accept: Control+a, send: Home }
+      - { when: composing, accept: Control+e, send: End }
+      - { when: composing, accept: Control+d, send: Delete }
+      - { when: composing, accept: Control+k, send: Shift+Delete }
+      - { when: composing, accept: Control+h, send: BackSpace }
+      - { when: composing, accept: Control+g, send: Escape }
+      - { when: composing, accept: Control+bracketleft, send: Escape }
+      - { when: composing, accept: Alt+v, send: Page_Up }
+      - { when: composing, accept: Control+v, send: Page_Down }
+      
+      # __patch:
+      #   - key_bindings:/emacs_editing
+      #   - key_bindings:/move_by_word_with_tab
+      #   - key_bindings:/paging_with_minus_equal
+      #   - key_bindings:/paging_with_comma_period
+      #   - key_bindings:/numbered_mode_switch
+
+  recognizer:
+    patterns:
+      email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"
+      uppercase: "[A-Z][-_+.'0-9A-Za-z]*$"
+      url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"
+
+  ascii_composer:
+    good_old_caps_lock: true  # true: 在保持 cap 键原有的特征， false: 点击不会切换大小写
+    switch_key:
+      Shift_L: commit_code
+      Shift_R: commit_code
+      Control_L: noop
+      Control_R: noop
+      Caps_Lock: clear
+      Eisu_toggle: clear
+    # switch_key为设置各个按键对应的功能,key和value如下
+    # key
+      # Shift_L为左shift键
+      # Eisu_toggle 为 日文键盘的「英数」转换键，英式键盘有无此键待确认.
+      # clear为按下时清除已有编码
+    # value: 
+      # noop: 什么也不做
+      # commit_code: 切换输入法且英文字符上屏
+      # commit_text: 切换输入法且文字上屏
+      # clear: 为切换输入法且清屏
+      # inline_ascii: 默认选项,不上屏,字符转变为英文输入且按Eneter上屏,但之后还是中文输入(即不切换输入法)
