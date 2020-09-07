@@ -1,0 +1,97 @@
+# Rime default settings
+# encoding: utf-8
+
+# default.custom.yaml
+# user default setting
+# save it to:
+#   ~/.config/ibus/rime  (linux)
+#   ~/Library/Rime       (macos)
+#   %APPDATA%\Rime       (windows)
+
+#############################
+#############################
+#### default.custom.yaml ####
+#############################
+#############################
+
+patch:
+  
+  schema_list: # 即架构列表
+     - schema : my_coolest_ever_schema   #这样就启用了未曾有过的高级输入方案！其实这么好的方案应该排在最前面哈
+
+  
+  punctuator:   # punctuator 即 标点符号
+    # 1 默认配置
+    # import_preset : default      # 此句导入默认的标点符号文件,从另一个设定档default.yaml导入,而default.yaml又是从punctuation.yaml中导入
+    # full_shape:
+    #   __include: punctuation:/full_shape
+    # half_shape:
+    #   __include: punctuation:/half_shape
+
+    # 2 自定义配置
+    import_preset: alternative    # 此句让所有的标点设为英文标点,与import_preset : default 互斥
+    
+    full_shape :    # 自定义全角, 某一个
+      " / "  : "、"  
+    half_shape :    # 自定义半角
+      " / "  : "、"  
+
+#############################
+#############################
+### myschema.custom.yaml ####
+#############################
+#############################
+
+# myschema.custom.yaml 制定方案的配置文件
+patch:
+  key_binder:
+    bindings: # 功能快捷键
+      - { when: composing, accept: Return, send: Escape } # 以回车清除编码串
+      - { when: has_menu, accept: semicolon, send: 2 }  # 分号键选择2候选
+      - { when: has_menu, accept: apostrophe, send: 3 } # 单引号键选择3候选
+      # 下面两行代表 空码时按空格键清空输入码,前提是需要关闭码表输入法连打(即"translator/enable_sentence": false)
+      - {when: has_menu, accept: space, send: space}  # 空码时按空格键清空输入码
+      - {when: composing, accept: space, send: Escape} # 空码时按空格键清空输入码
+    
+    translator:
+      enable_completion : false  # true:开启逐键提示。false:只出精确匹配输入码的候选字，可关闭这一选项。
+      enable_user_dict : false # 关闭用户词典和字频调整,true为开启
+      enable_sentence : false # 关闭码表输入法连打,这个选项仅针对table_translator，用于屏蔽仓颉、五笔中带有太极图章「☯」的连打词句选项，不可作用于拼音、注音、速成等输入方案。
+
+
+#############################
+#############################
+####  weasel.custom.yaml ####
+#############################
+#############################
+
+# 说明:weasel.custom.yaml 为样式/外观相关的配置文件
+patch :
+  style/horizo​​ntal : true       # true: 候选为横排显示 false: 竖排显示
+  style/inline_preedit : true   # 内嵌编码（仅支持TSF）
+  style/display_tray_icon : true   #显示托盘图标
+  "style/color_scheme" : starcraft     #这项用于选中下面定义的新方案
+  "preset_color_schemes/starcraft " :   #在配色方案列表里加入标识为starcraft的新方案
+  name : 星际我争霸／StarCraft 
+  author : Contralisk <contralisk@gmail.com>, original artwork by Blizzard Entertainment 
+  text_color : 0xccaa88              #编码行文字颜色，24位色值，用十六进制书写方便些，顺序是蓝绿红0xBBGGRR 
+  candidate_text_color : 0x30bb55    #候选项文字颜色，当与文字颜色不同时指定
+  back_color : 0x000000              #底色
+  border_color: 0x1010a0            #边框颜色，与底色相同则为无边框的效果
+  hilited_text_color : 0xfecb96      #高亮文字，即与当前高亮候选对应的那部份输入码
+  hilited_back_color : 0x000000      #设定高亮文字的底色，可起到凸显高亮部份的作用
+  hilited_candidate_text_color : 0x60ffa8   #高亮候选项的文字颜色，要醒目！
+  hilited_candidate_back_color : 0x000000   #高亮候选项的底色，若与背景色不同就会显出光棒
+
+
+#############################
+#############################
+#### squirrel.custom.yaml ###
+#############################
+#############################
+
+# 0.9.6版本开始支持选择配色方案，用squirrel.custom.yaml保存用户的设定。
+# 0.9.9 开始支持特定程序里关闭中文输入这项设定,由squirrel.custom.yaml的app_options中关闭
+
+
+
