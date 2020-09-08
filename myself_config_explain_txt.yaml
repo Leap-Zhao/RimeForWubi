@@ -36,6 +36,28 @@ patch:
     half_shape :    # 自定义半角
       " / "  : "、"  
 
+  ascii_composer:
+    good_old_caps_lock: true  # true: 在保持 cap 键原有的特征， false: 点击不会切换大小写
+    switch_key:
+      Shift_L: commit_code
+      Shift_R: commit_code
+      Control_L: noop
+      Control_R: noop
+      Caps_Lock: clear
+      Eisu_toggle: clear
+    # switch_key为设置各个按键对应的功能,key和value如下
+    # key
+      # Shift_L为左shift键
+      # Eisu_toggle 为 日文键盘的「英数」转换键，英式键盘有无此键待确认.
+      # clear为按下时清除已有编码
+    # value: 
+      # noop: 什么也不做
+      # commit_code: 切换输入法且英文字符上屏
+      # commit_text: 切换输入法且文字上屏
+      # clear: 为切换输入法且清屏
+      # inline_ascii: 默认选项,不上屏,字符转变为英文输入且按Eneter上屏,但之后还是中文输入(即不切换输入法)
+
+
 #############################
 #############################
 ### myschema.custom.yaml ####
